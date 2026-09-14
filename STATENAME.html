@@ -155,6 +155,14 @@
   }
   .item.open{border-left-color:var(--blaze);}
 
+  /* Caution / warning panel — any DATA item with `caution: true` renders in
+     the offset --caution color (default --rust). Override --caution in the
+     STATE THEME above to use a different accent for your state. */
+  :root{ --caution: var(--rust); }
+  .item.caution,
+  .item.caution.open{border-left-color:var(--caution);}
+  .item.caution button.q .qtext{color:var(--caution);}
+
   button.q{
     width:100%;
     text-align:left;
@@ -407,7 +415,8 @@ function render(filter){
     section.appendChild(h2);
     group.items.forEach((it, idx) => {
       const item = document.createElement('div');
-      item.className = 'item';
+      // `caution: true` on a DATA item gives it the offset caution styling.
+      item.className = 'item' + (it.caution ? ' caution' : '');
       const btn = document.createElement('button');
       btn.className = 'q';
       btn.innerHTML = `<span class="qtext">${it.q}</span><span class="chev">+</span>`;

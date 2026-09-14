@@ -22,6 +22,35 @@ Everything else in the file (the accordion behavior, the pill-filter
 logic, the mobile layout) is the reusable engine and shouldn't need to
 change.
 
+## Caution / warning panels
+
+Any FAQ tile can be flagged as a caution — a warning about a
+misleading site, a scam, a common mistake, etc. Add `caution: true`
+to the item:
+
+```js
+{
+  caution: true,
+  q: "A caution for voters",
+  a: `<p><strong>Voter Beware!</strong> ...</p>`
+},
+```
+
+A caution tile automatically gets an offset left-border color and a
+colored question label so it stands out from normal category tiles.
+The default color is `--rust`. To use a different offset color for
+your state (e.g. the flag-gold accent), override `--caution` inside
+the STATE THEME block:
+
+```css
+:root{ --caution: var(--blaze); }
+```
+
+Place caution tiles wherever they're most useful in context — often at
+the end of the Register-to-vote section, since that's where voters
+searching for registration links are most likely to land on a
+look-alike site.
+
 ## What content to bring per state
 
 For each new state, the most reliable path is the same one we used for

@@ -155,6 +155,20 @@
   }
   .item.open{border-left-color:var(--blaze);}
 
+  /* -------------------------------------------------------------------
+     CAUTION / WARNING PANEL
+     Any FAQ item declared with `caution: true` in DATA gets a distinct
+     left-border color (and question-text color) so it stands out from the
+     normal category color. The border stays this color whether the panel
+     is open or closed. Default color is --rust; override --caution in the
+     STATE THEME block above if you want a different offset color for your
+     state. Example: `--caution: var(--blaze);` to use the flag-gold accent.
+     ------------------------------------------------------------------- */
+  :root{ --caution: var(--rust); }
+  .item.caution,
+  .item.caution.open{border-left-color:var(--caution);}
+  .item.caution button.q .qtext{color:var(--caution);}
+
   button.q{
     width:100%;
     text-align:left;
@@ -340,6 +354,15 @@ const DATA = [
       q: "What if I forgot to register?",
       a: `<p>Maine has same-day voter registration — just fill out your card at the polls on Election Day. Once you're registered in Maine, it's good for life, unless you change your name or address.</p>`
     },
+    // Example caution tile — flag it with `caution: true` and it renders in the
+    // offset --caution color (default --rust; override in STATE THEME).
+    {
+      caution: true,
+      q: "A caution for voters",
+      a: `<p><strong>Voter Beware!</strong> The site "votesafe.org" is anything but safe. It collects far more personal information than the government-sponsored site (Vote.org) and since late August sells users' data — such as names and contact information and "inferences" about them — to its business partners. Voters should be cautioned against using that site.</p>
+      <a class="linkbtn alt" href="https://popular.info/p/the-hidden-dangers-of-musks-votesafeorg" target="_blank" rel="noopener">Read the details: Popular Information</a>
+      <p style="margin-top:.9rem;">In all cases, voters should be careful about providing personal information to any site before they read the organization's privacy policy.</p>`
+    },
   ]
 },
 {
@@ -489,7 +512,8 @@ function render(filter){
     section.appendChild(h2);
     group.items.forEach((it, idx) => {
       const item = document.createElement('div');
-      item.className = 'item';
+      // `caution: true` on a DATA item gives it the offset caution styling.
+      item.className = 'item' + (it.caution ? ' caution' : '');
       const btn = document.createElement('button');
       btn.className = 'q';
       btn.innerHTML = `<span class="qtext">${it.q}</span><span class="chev">+</span>`;
